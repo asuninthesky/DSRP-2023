@@ -1,0 +1,7 @@
+DataSet: https://www.kaggle.com/datasets/abcsds/pokemon
+Credit: ALBERTO BARRADAS
+Sources: pokemon.com, pokemonb, bulbapedia
+
+This dataset includes the basic stats of the first 721 pokemon. Additionally, each pokemon's pokedex number, name, typing and legendary status are recorded as well.
+
+The purpose of this repository is to learn dataset skills with R through various hands on labs. This repo is specifically created for The Coding School DSRP summer camp of 2023.
