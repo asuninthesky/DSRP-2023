@@ -1,0 +1,18 @@
+data <- read.csv('Pokemon.csv')
+str(data)
+mean(data$Total)
+median(data$Total)
+range(data$Total)
+var(data$Total)
+sd(data$Total)
+inter <- IQR(data$Total)
+summary(data$Total)
+330 - (1.5*inter)
+515 + (1.5*inter)
+
+d <- data$Total
+mean(d)
+median(d)
+d <- c(d, 20, 21, 30)
+mean(d)
+median(d)
