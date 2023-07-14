@@ -22,3 +22,31 @@ normal <- defense |> filter(type_1 == "Normal" | type_2 == "Normal")
 
 t.test(steel$defense, normal$defense, paired = F, alternative = "greater")
 #p-value = 2.559e-12, null hypothesis is succesfully rejected
+
+#2
+arrange(summarize(dataset, .by = type_1, m_total = mean(total)), desc(m_total))
+#For this section I want to determine if their is a relationship between pokemon
+#type and average stats.
+#Null Hypothesis: There is no significant difference between the average stats
+#                 of pokemon with a primary type of dragon, steel, flying, 
+#                 poison and bug.
+
+#Cleaning
+f_data <- dataset |> 
+  filter(type_1 == c("Dragon", "Steel", "Flying", "Poison", "Bug")) |>
+  select(type_1, total)
+
+a_data <- aov(total ~ type_1, f_data)
+summary(a_data)
+TukeyHSD(a_data)#The results show that there is only a significant difference 
+                #in total stats between dragon and bug type pokemon.
+
+#3
+#In this section I want to test for a relationship between a pokemon's primary 
+#type and legendary pokemon. NOTE: data is very sparse so chi-square test may
+#be inaccurate 
+t <- table(dataset$type_1, dataset$legendary)
+t
+c <- chisq.test(t)
+c$p.value
+c$residuals
