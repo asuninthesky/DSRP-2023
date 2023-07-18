@@ -5,6 +5,8 @@ library(reshape2)
 library(ggplot2)
 library(janitor)
 library(rsample)
+library(caret)
+library(ranger)
 
 #1 Collect Data
 pk <- read.csv("Pokemon.csv")
@@ -51,22 +53,21 @@ pksplit <- initial_split(pkdata, prop = 0.75)
 pktrain <- training(pksplit)
 pktest <- testing(pksplit)
 
-#6 Choose a Suitable Model
+#6a Choose a Suitable Model
 #Since I'm working to classify a boolean variable I will use logical regression
 #that only works to classify binary variables
 
-#7 Train Model
+#7a Train Model
 pkfit <- logistic_reg() |>
   set_engine("glm") |>
   set_mode("classification") |>
   fit(legendary ~ total + ., data = pktrain)
 
-#8 Test Model
+#8a Test Model
 pkresults <- pktest
 pkresults$pred <- predict(pkfit, pktest)$.pred_class
 pkresults
 
-library(caret)
 
 confusionMatrix(pkresults$legendary, pkresults$pred, mode = "everything", positive = "False")
 #F1 score for determining if a pokemon is not a legendary is 0.96
@@ -74,3 +75,24 @@ confusionMatrix(pkresults$legendary, pkresults$pred, mode = "everything", positi
 #F1 score for determining if a pokemon is a legendary is 0.4
 
 ?confusionMatrix()
+
+
+#6b Choose a Suitable Model
+#My second model will be a random forest
+
+#7b Train Model
+pkfit2 <- rand_forest() |>
+  set_engine("ranger") |>
+  set_mode("classification") |>
+  fit(legendary ~ total + ., data = pktrain)
+summary(pkfit2)
+#8b Test Model
+pkresults2 <- pktest
+pkresults2$pred <- predict(pkfit2, pktest)$.pred_class
+pkresults2
+
+
+confusionMatrix(pkresults2$legendary, pkresults2$pred, mode = "everything", positive = "False")
+#F1 score for determining if a pokemon is not a legendary is 0.965
+confusionMatrix(pkresults2$legendary, pkresults2$pred, mode = "everything", positive = "True")
+#F1 score for determining if a pokemon is a legendary is 0.5517
