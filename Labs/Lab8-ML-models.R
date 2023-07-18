@@ -29,9 +29,12 @@ pkpca_val$legendary <- pk$legendary
 ggplot(pkpca_val, aes(PC1, PC2, color = legendary)) + geom_point() + 
   theme_minimal()
 
+#finding variation and percentage of variation
+evecs <- (pkpca$rotation)^2
+evecs <- evecs / sum(evecs)
+evecs
 #Correlation
 pkcor <- pknum |> cor() |> melt() |> as.data.frame()
-
 ggplot(pkcor, aes(x = Var1, y = Var2, fill = value)) + 
   geom_tile() +
   scale_fill_gradient2()
