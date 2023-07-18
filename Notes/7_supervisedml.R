@@ -161,6 +161,3 @@ class_results$boost_pred <- predict(boost_class_fit, class_test)$.pred_class
 class_results$forest_pred <- predict(forest_class_fit, class_test)$.pred_class
 class_results
 
-f1(class_results$Species, class_results$log_pred)
-f1(class_results$Species, class_results$boost_pred)
-f1(class_results$Species, class_results$forest_pred)
